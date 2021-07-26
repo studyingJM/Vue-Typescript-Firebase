@@ -26,3 +26,5 @@ pnpm-debug.log*
 .firebaserc
 *-debug.log
 /firebase-data
+.github
+firebase-export-*
