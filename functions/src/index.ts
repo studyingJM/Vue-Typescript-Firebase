@@ -1,11 +1,20 @@
+import * as functions from 'firebase-functions'
 import userCollection, { User } from './models/users'
 
-const test = async () => {
-  const ref = userCollection.doc('a')
-  const user = new User('name ok')
-  await ref.set(user)
-  const doc = await ref.get()
-  console.log(doc.data())
-}
+export const userCreated = functions.auth.user().onCreate(user => {
+  const { uid, email, providerData, displayName, photoURL } = user
+  const ref = userCollection.doc(uid)
 
-test()
+  if (!email) throw Error('email none')
+
+  return ref.set(new User(
+    email, providerData.map(p => p.providerId), displayName, photoURL
+  ))
+})
+
+export const userDeleted = functions.auth.user().onDelete(user => {
+  const ref = userCollection.doc(user.uid)
+  return ref.delete()
+})
+
+console.log('functions start')
