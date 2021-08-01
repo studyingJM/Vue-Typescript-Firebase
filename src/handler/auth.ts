@@ -1,4 +1,5 @@
 import { auth } from '@/plugins/firebase'
+import AuthStore from '@/store/auth'
 
 export default class AuthHandler {
   private static inst: AuthHandler
@@ -7,15 +8,15 @@ export default class AuthHandler {
     this.run()
   }
 
-  public run () {
+  public run (): void {
     auth.onAuthStateChanged(user => {
       if (user) console.log('new user')
       else console.log('user null')
-      console.log(user)
+      AuthStore.setFirebaseUser(user)
     })
   }
 
-  public static instance () {
+  public static instance (): AuthHandler {
     if (this.inst) return this.inst
     return new AuthHandler()
   }

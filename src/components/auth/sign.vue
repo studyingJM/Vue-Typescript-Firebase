@@ -22,7 +22,6 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { auth } from '@/plugins/firebase'
 
-// eslint-disable-next-line no-use-before-define
 @Component<AuthSign>({
   created () {
     this.signIn()
@@ -31,7 +30,7 @@ import { auth } from '@/plugins/firebase'
 export default class AuthSign extends Vue {
   email = ''
 
-  submit () {
+  submit (): void {
     const actionCodeSettings = {
       url: 'http://localhost:8080/finishSignUp',
       handleCodeInApp: true
@@ -42,7 +41,7 @@ export default class AuthSign extends Vue {
       })
   }
 
-  signIn () {
+  signIn (): void {
     const email = localStorage.getItem('emailForSignIn')
     if (!email) return
     this.email = email
@@ -53,7 +52,7 @@ export default class AuthSign extends Vue {
       })
   }
 
-  signOut () {
+  signOut (): void {
     auth.signOut()
   }
 }
